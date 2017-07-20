@@ -22,19 +22,34 @@
     - python-psycopg2
     # - postgresql_db
   tags: ["packages"]
-  
+
+# - name: Check for pgdata directory
+#   stat: path=/var/lib/pgsql/data/pg_log
+#   register: pgdata_stat
+#   failed_when: false
+
 # following tasks have to be done as the postgres user with sudo..
-- name: init the database
+- name: Initiate database
   become: true
-  become_user: postgres
-  command: service postgresql initdb
+  # become_user: postgres
+  # run_once: true
+  command: postgresql-setup initdb
            creates=/var/lib/pgsql/data/postgresql.conf
   tags: ["app","configure"]
+  # when: pgdata_stat.stat.isdir is defined and pgdata_stat.stat.isdir
+  
+# - name: init the database
+#   become: true
+#   become_user: postgres
+#   environment:
+#     PATH: /usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+#   command: creates=/var/lib/pgsql/data/postgresql.conf postgresql-setup initdb
+#   tags: ["app","configure"]
   
 # add the remote hosts to the etc hosts file
 - name: "add the application hosts to the etc hosts conf"
   become: true
-  become_user: postgres
+  # become_user: postgres
   lineinfile:
     backup: yes
     dest: /etc/hosts
@@ -74,8 +89,9 @@
   replace:
     backup=yes
     dest=/var/lib/pgsql/data/postgresql.conf
-    regexp="^listen_addresses\s=\s'\*'"
+    regexp="^#listen_addresses\s=\s'localhost'"
     replace="listen_addresses = '{{ ansible_eth1.ipv4.address }}'"
+    # regexp="^listen_addresses\s=\s'\*'"
     # regexp="^#listen_addresses\s=\s'localhost'"
     # replace="listen_addresses = '*'"
   notify: restart postgresql

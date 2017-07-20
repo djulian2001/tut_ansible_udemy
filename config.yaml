@@ -45,10 +45,12 @@ configs:
       provision_path: './remote/provision.sh'
     manage:
       vagrant_name: 'manage_node'
-      vagrant_box: 'ubuntu/trusty64'
+      vagrant_box: 'centos/7'
+      # vagrant_box: 'ubuntu/trusty64'
       hostname: 'manage.node'
       private_ip: '192.168.34.50'
-      vbox_name: 'rc_ansible_manage_ubuntu_trusty64'
+      vbox_name: 'rc_ansible_manage_ubuntu_centos_7'
+      # vbox_name: 'rc_ansible_manage_ubuntu_trusty64'
       provision_label: 'manage node'
       provision_path: './manage/provision.sh'
 

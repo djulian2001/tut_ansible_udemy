@@ -1,0 +1,12 @@
+- hosts: database
+  become: true
+  tasks:
+    - name: verify postgresql service status
+      command: service postgresql status
+      changed_when: false
+      
+    - name: verify postgresql listening on port
+      wait_for: 
+        host={{ ansible_eth1.ipv4.address }}
+        port=5432 
+        timeout=1

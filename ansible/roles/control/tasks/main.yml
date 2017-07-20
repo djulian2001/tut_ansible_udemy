@@ -4,11 +4,20 @@
     name: "{{ item }}"
   with_items: "{{ inventory_hostname }}"
 
+# - name: install tools
+#   apt: 
+#     name={{ item }}
+#     state=present
+#     update_cache=yes
+#   with_items:
+#     - curl
+#   tags: [ 'packages' ]
+
 - name: install tools
-  apt: 
-    name={{ item }}
-    state=present
-    update_cache=yes
+  yum:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
   with_items:
     - curl
   tags: [ 'packages' ]

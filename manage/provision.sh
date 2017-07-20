@@ -1,10 +1,28 @@
 #!/bin/bash
 UAPPNAME="$1"
 SSHPASS="$2"
+HOST_OS="$5"
 
-apt-get update
-apt-get install -y git sshpass
-	
+if [[ "${HOST_OS}" -eq 'centos/7' ]]; then
+	yum -y install epel-release
+	yum --enablerepo=epel -y install epel-release
+	yum -y install git sshpass python-pip python-devel openssl-devel.x86_64
+	pip install --upgrade pip
+	pip install ansible
+	pip install --upgrade ansible
+else
+
+	apt-get update
+	apt-get install -y git sshpass
+	apt-get install -y software-properties-common
+	apt-get update -y
+	apt-add-repository -y ppa:ansible/ansible
+	apt-get install ansible -y
+	apt-get autoremove -y
+
+fi
+
+
 # set up the ansible manager...
 /bin/bash /vagrant/add_ansible_user.sh "$1" "$2" $3 "$4"
 
@@ -53,11 +71,6 @@ done
 # 	# /bin/echo "status: $?"
 # done < "$IP_FILE"
 
-apt-get install -y software-properties-common
-apt-get update -y
-apt-add-repository -y ppa:ansible/ansible
-apt-get install ansible -y
-apt-get autoremove -y
 
 # there probably needs to be a host publishing step for all remote hosts within the manager node...
 # NOTE:  apparently if you don't get the server finger print and examine it to ensure 
@@ -69,6 +82,12 @@ apt-get autoremove -y
 # ssh-keyscan -H ["remote.node"],["192.168.34.51"] >> ~/.ssh/known_hosts
 # ssh-keyscan -H ["192.168.34.51"] >> ~/.ssh/known_hosts
 # ssh-keyscan -H ["remote.node"] >> ~/.ssh/known_hosts
+
+# ssh-keyscan -H "192.168.34.53" >> ~/.ssh/known_hosts
+# ssh-keyscan -H "192.168.34.54" >> ~/.ssh/known_hosts
+# ssh-keyscan -H "192.168.34.51" >> ~/.ssh/known_hosts
+# ssh-keyscan -H "192.168.34.52" >> ~/.ssh/known_hosts
+
 
 # ssh-keygen -R ["$6"]
 # ssh-keygen -R ["$6"],[ip_address]

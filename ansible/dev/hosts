@@ -8,7 +8,7 @@ app02 ansible_host=192.168.34.54
 [database]
 db01 ansible_host=192.168.34.52
 
-[control]
+[controller]
 control ansible_connection=local ansible_host=192.168.34.50
 
 # NOTE: just using the label that he had did not work...

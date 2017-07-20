@@ -1,5 +1,5 @@
 ---
-- hosts: control
+- hosts: controller
   become: true
   gather_facts: false
   roles:

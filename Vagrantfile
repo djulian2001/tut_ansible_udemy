@@ -40,7 +40,7 @@ Vagrant.configure(2) do |config|
     rem_lb.vm.network "private_network", ip:vm_configs['remote_lb']['private_ip']
     rem_lb.vm.provider vm_configs['vm_box_type'] do |vb1|
       vb1.name = vm_configs['remote_lb']['vbox_name']
-      vb1.memory = 512
+      vb1.memory = 256
       # vb1.cpus = 1
     end
     rem_lb.vm.provision vm_configs['remote_lb']['provision_label'], type:"shell" do |sh_cmd1|
@@ -54,7 +54,7 @@ Vagrant.configure(2) do |config|
     rem_db.vm.network "private_network", ip:vm_configs['remote_db']['private_ip']
     rem_db.vm.provider vm_configs['vm_box_type'] do |vb1|
       vb1.name = vm_configs['remote_db']['vbox_name']
-      vb1.memory = 1024
+      vb1.memory = 512
       # vb1.cpus = 1
     end
     rem_db.vm.provision vm_configs['remote_db']['provision_label'], type:"shell" do |sh_cmd1|
@@ -69,7 +69,7 @@ Vagrant.configure(2) do |config|
     
     rem_app1.vm.provider vm_configs['vm_box_type'] do |vb1|
       vb1.name = vm_configs['remote_app1']['vbox_name']
-      vb1.memory = 1024
+      vb1.memory = 256
       # vb1.cpus = 1
     end
     rem_app1.vm.provision vm_configs['remote_app1']['provision_label'], type:"shell" do |sh_cmd1|
@@ -84,7 +84,7 @@ Vagrant.configure(2) do |config|
     
     rem_app2.vm.provider vm_configs['vm_box_type'] do |vb1|
       vb1.name = vm_configs['remote_app2']['vbox_name']
-      vb1.memory = 1024
+      vb1.memory = 256
       # vb1.cpus = 1
     end
     rem_app2.vm.provision vm_configs['remote_app2']['provision_label'], type:"shell" do |sh_cmd1|
@@ -103,13 +103,13 @@ Vagrant.configure(2) do |config|
 
     ans.vm.provider vm_configs['vm_box_type'] do |vb|
       vb.name = vm_configs['manage']['vbox_name']
-      vb.memory = 1024
+      vb.memory = 512
       # vb.cpus = 1
     end
   
     ans.vm.provision vm_configs['manage']['provision_label'], type:"shell" do |sh_cmd|
       sh_cmd.path = vm_configs['manage']['provision_path']
-      sh_cmd.args = [vm_configs['arg_user_name'],vm_configs['arg_user_pass'],vm_configs['arg_user_uuid'],vm_configs['arg_user_desc']]
+      sh_cmd.args = [vm_configs['arg_user_name'],vm_configs['arg_user_pass'],vm_configs['arg_user_uuid'],vm_configs['arg_user_desc'],vm_configs['manage']['vagrant_box']]
     end
   end
 
